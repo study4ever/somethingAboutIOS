@@ -1,0 +1,154 @@
+#import <Foundation/Foundation.h>
+
+@interface NSString (NSStringForWMG)
+/**判断字符串是否以指定的前缀开头*/
+/**judge the prefix is the appointed prefix*/
+- (BOOL) startsWith:(NSString*)prefix;
+
+/**判断字符串是否以指定的后缀结束*/
+/**judge the postfix is the appointed postfix*/
+- (BOOL) endsWith:(NSString*)suffix;
+
+/**转换成大写*/
+/**translate lowercase to capital*/
+- (NSString *) toLower;
+
+/**转换成小写*/
+/**translate capital to lowercase*/
+- (NSString *) toUpper;
+
+/**截取字符串前后空格*/
+/**intercept the bicephalous blank */
+- (NSString *) trim;
+
+/**用指定分隔符将字符串分割成数组*/
+
+- (NSArray *) split:(NSString*) separator;
+
+/**用指定字符串替换原字符串*/
+- (NSString *) replace:(NSString*)oldStr with:(NSString*)newStr;
+
+/**从指定的开始位置和结束位置开始截取字符串*/
+- (NSString *) substringFromIndex:(int)begin toIndex:(int)end;
+/**取字符串第几个字符*/
+- (unichar) charAt:(int)index ;
+
+/**和其他字符串比较(不忽略大小写)*/
+- (int) compareTo:(NSString*) anotherString;
+
+/**和其他字符串比较,忽略大小写*/
+- (int) compareToIgnoreCase:(NSString*) str;
+
+/**是否包含*/
+- (BOOL) contains:(NSString*) str;
+/**是否完全相等*/
+- (BOOL) equals:(NSString*) anotherString;
+
+/**忽略大小写后是否相等*/
+- (BOOL) equalsIgnoreCase:(NSString*) anotherString;
+
+/**返回字符相等的首个位置*/
+- (int) indexOfChar:(unichar)ch;
+@end
+
+@implementation NSString (NSStringForHY)
+
+#define NotFound -1
+
+#pragma mark 判断字符串是否以指定的前缀开头
+/**判断字符串是否以指定的前缀开头*/
+- (BOOL) startsWith:(NSString*)prefix
+{
+    return [self hasPrefix:prefix];
+}
+#pragma mark 断字符串是否以指定的后缀结束
+/**判断字符串是否以指定的后缀结束*/
+- (BOOL) endsWith:(NSString*)suffix
+{
+    return [self hasSuffix:suffix];
+}
+#pragma mark 转换成小写
+/**转换成小写*/
+- (NSString *) toLower
+{
+    return [self lowercaseString];
+}
+#pragma mark 转换成大写
+/**转换成大写*/
+- (NSString *) toUpper
+{
+    return [self uppercaseString];
+}
+#pragma mark 截取字符串前后空格
+/**截取字符串前后空格*/
+- (NSString *) trim
+{
+    return [self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+}
+#pragma mark 用指定分隔符将字符串分割成数组
+/**用指定分隔符将字符串分割成数组*/
+- (NSArray *) split:(NSString*) separator
+{
+    return [self componentsSeparatedByString:separator];
+}
+#pragma mark 指定字符串替换原字符串
+/**用指定字符串替换原字符串*/
+- (NSString *) replace:(NSString*)oldStr with:(NSString*)newStr
+{
+    return [self stringByReplacingOccurrencesOfString:oldStr withString:newStr];
+}
+#pragma mark 从指定的开始位置和结束位置开始截取字符串
+/**从指定的开始位置和结束位置开始截取字符串*/
+- (NSString *) substringFromIndex:(int)begin toIndex:(int)end
+{
+    if (end <= begin) {
+        return @"";
+    }
+    NSRange range = NSMakeRange(begin, end - begin);
+    return [self substringWithRange:range];
+}
+
+
+#pragma mark 取第几个位置的字符
+/**取第几个位置的字符*/
+- (unichar) charAt:(int)index {
+    return [self characterAtIndex:index];
+}
+#pragma mark 和其他字符串比较(不忽略大小写)
+/**和其他字符串比较(不忽略大小写)*/
+- (int) compareTo:(NSString*) anotherString {
+    return [self compare:anotherString];
+}
+#pragma mark 和其他字符串比较,忽略大小写
+/**和其他字符串比较,忽略大小写*/
+- (int) compareToIgnoreCase:(NSString*) str {
+    return [self compare:str options:NSCaseInsensitiveSearch];
+}
+#pragma mark 是否包含
+/**是否包含*/
+- (BOOL) contains:(NSString*) str {
+    NSRange range = [self rangeOfString:str];
+    return (range.location != NSNotFound);
+}
+
+#pragma mark 是否完全相等
+/**是否完全相等*/
+- (BOOL) equals:(NSString*) anotherString {
+    return [self isEqualToString:anotherString];
+}
+#pragma mark 忽略大小写后是否相等
+/**忽略大小写后是否相等*/
+- (BOOL) equalsIgnoreCase:(NSString*) anotherString {
+    return [[self toLower] equals:[anotherString toLower]];
+}
+#pragma mark 返回字符相等的首个位置
+/**返回字符相等的首个位置*/
+- (int) indexOfChar:(unichar)ch{
+    for (int i=0; self.length; i++) {
+        if (ch==[self charAt:i]) {
+            return i;
+        }
+    }
+    return NotFound;
+}
+@end
